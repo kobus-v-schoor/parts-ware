@@ -65,8 +65,8 @@ def search(request):
     query = query.split()
 
     def construct_query(word):
-        q = Q(name__contains=word)
-        q |= Q(description__contains=word)
+        q = Q(name__icontains=word)
+        q |= Q(description__icontains=word)
 
         return q
 
