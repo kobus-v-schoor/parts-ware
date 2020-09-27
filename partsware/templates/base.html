@@ -17,9 +17,7 @@
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
-        <div class="container-fluid">
-            {% block content %}{% endblock %}
-        </div>
+        {% block content %}{% endblock %}
 
         {# bootstrap js #}
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
