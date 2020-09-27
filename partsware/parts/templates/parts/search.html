@@ -1,0 +1,49 @@
+{% extends 'parts/base.html' %}
+
+{% block parts_content %}
+
+<div class="p-3">
+    <h3>Search results</h3>
+</div>
+
+{% if not parts %}
+No parts found
+{% else %}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Datasheet</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Container</th>
+            <th scope="col">Location</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for part in parts %}
+        <tr>
+            <td>{{ part.name }}</td>
+            <td>{{ part.description | truncatechars:150 }}</td>
+            {% if part.datasheet %}
+            <td>
+                <a href="{% url 'parts:download_datasheet' part.pk %}">
+                    {{ part.datasheet }}
+                </a>
+            </td>
+            {% else %}
+            <td>N/A</td>
+            {% endif %}
+            <td>{{ part.quantity }}</td>
+            <td>{{ part.container }}</td>
+            <td>{{ part.location }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endif %}
+
+{% endblock %}

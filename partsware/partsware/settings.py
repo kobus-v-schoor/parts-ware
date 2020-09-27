@@ -127,3 +127,5 @@ STATICFILES_DIRS = [
 STATIC_DIRS = ["static"]
 
 LOGIN_REDIRECT_URL = '/index/'
+
+MEDIA_ROOT = BASE_DIR / 'media'

@@ -1,11 +1,14 @@
 import re
+import mimetypes
 
 from functools import reduce
 
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.db.models import Q
+from django.core.exceptions import PermissionDenied
 
 from .models import Tag, Container, Part
 
@@ -22,6 +25,29 @@ def index(request):
     }
 
     return render(request, 'parts/index.html', context=context)
+
+@login_required
+def download_datasheet(request, part_id):
+    part = get_object_or_404(Part, pk=part_id)
+
+    # check if user owns the part
+    if part.user != request.user:
+        raise PermissionDenied()
+
+    # check if the part has a datasheet
+    if not part.datasheet:
+        raise PermissionDenied()
+
+    # try and guess file type
+    mime_type, _ = mimetypes.guess_type(part.datasheet.path)
+    fname = part.datasheet.name
+
+    # generate http response
+    with open(part.datasheet.path, 'rb') as f:
+        response = HttpResponse(f, content_type=mime_type)
+        response['Content-Disposition'] = f"attachment; filename={fname}"
+
+    return response
 
 @login_required
 @require_POST
