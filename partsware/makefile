@@ -1,4 +1,4 @@
-LOCAL_IP != hostname -I | awk '{$$1=$$1};1'
+LOCAL_IP != hostname -I | cut -f 1 -d " "
 
 migrate:
 	./manage.py migrate
