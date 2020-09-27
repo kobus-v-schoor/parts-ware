@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static "css/login.css" %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 login-form">
+            <h3>Login</h3>
+
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                Your username and password didn't match. Please try again.
+            </div>
+            {% endif %}
+
+            {% if next %}
+                {% if user.is_authenticated %}
+                <div class="alert alert-danger">
+                    Your account doesn't have access to this page. To proceed,
+                    please login with an account that has access.
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    Please login to see this page.
+                </div>
+                {% endif %}
+            {% endif %}
+
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <input name="{{ form.username.html_name }}" type="text" class="form-control" placeholder="Username" required/>
+                </div>
+
+                <div class="form-group">
+                    <input name="{{ form.password.html_name }}" type="password" class="form-control" placeholder="Password" aria-describedby="forgot-password" required/>
+                    <small id="forgot-password" class="form-text text-muted">
+                        <a href="{% url 'password_reset' %}">Forgot password?</a>
+                    </small>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </div>
+
+                <input type="hidden" name="next" value="{{ next }}">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
