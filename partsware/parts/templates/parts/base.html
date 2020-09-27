@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {# required meta tags #}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {# bootstrap css #}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+        {# custom styles #}
+        {% load static %}
+
+        <link rel="stylesheet" href="{% static "parts/css/base.css" %}">
+        {% block styles %}{% endblock %}
+
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <header class="bg-dark text-light navbar">
+            <h1 class="navbar-brand" >PartsWare</h1>
+
+            <ol class="nav">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'parts:index' %}">Index</a>
+                </li>
+            </ol>
+        </header>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+
+        {# bootstrap js #}
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    </body>
+</html>

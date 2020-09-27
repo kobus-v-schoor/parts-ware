@@ -1,0 +1,35 @@
+{% extends 'parts/base.html' %}
+
+{% block content %}
+
+<div class="p-5 row">
+    <div class="col-md-4">
+        <h1 class="jumbotron bg-white text-center">
+            Welcome to your parts warehouse
+        </h1>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Statistics
+            </div>
+
+            <div class="row">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Total parts: {{ parts.count }}</li>
+                    </ul>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Total containers: {{ containers.count }}</li>
+                    </ul>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Total tags: {{ tags.count }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

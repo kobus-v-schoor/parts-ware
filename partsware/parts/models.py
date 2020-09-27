@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Tag(models.Model):
+    # user that owns this tag
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
 
     def __str__(self):
@@ -9,6 +11,8 @@ class Tag(models.Model):
 
 # represents a physical container within which parts will be stored.
 class Container(models.Model):
+    # user that owns this container
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # user-friendly name for the container
     name = models.CharField(max_length=128)
     description = models.TextField()
