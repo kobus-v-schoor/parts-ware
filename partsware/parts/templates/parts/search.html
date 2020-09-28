@@ -10,54 +10,35 @@
 No parts found
 {% else %}
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Datasheet</th>
-            <th scope="col">Pinout</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Container</th>
-            <th scope="col">Location</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
+<div class="row">
+    {% for part in parts %}
 
-    <tbody>
-        {% for part in parts %}
-        <tr>
-            <td>{{ part.name }}</td>
-            <td>{{ part.description | truncatechars:150 }}</td>
+    <div class="col-sm-3">
+        <div class="card mb-4">
+            <div class="card-header">{{ part.name }}</div>
 
-            {% if part.datasheet %}
-            <td>
-                <a href="{% url 'parts:download_datasheet' part.pk %}">
-                    Download
-                </a>
-            </td>
-            {% else %}
-            <td>N/A</td>
-            {% endif %}
+            <div class="card-body">
+                <h6 class="card-subtitle text-muted mb-2">
+                    {{ part.container }}: {{ part.location }}
+                </h6>
 
-            {% if part.pinout %}
-            <td>
-                <a href="{% url 'parts:pinout' part.pk %}">Show</a>
-            </td>
-            {% else %}
-            <td>N/A</td>
-            {% endif %}
+                <p class="card-text">
+                {{ part.description | truncatechars:150 }}
+                </p>
 
-            <td>{{ part.quantity }}</td>
-            <td>{{ part.container }}</td>
-            <td>{{ part.location }}</td>
-            <td>
-                <a href="{% url 'parts:edit_part' part.id %}">Edit</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                {% if part.datasheet %}
+                <a class="btn btn-primary" href="{% url 'parts:download_datasheet' part.pk %}">Datasheet</a>
+                {% endif %}
+
+                {% if part.pinout %}
+                <a class="btn btn-primary" href="{% url 'parts:pinout' part.pk %}">Pinout</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
 
 {% endif %}
 

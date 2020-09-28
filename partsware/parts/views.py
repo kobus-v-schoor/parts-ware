@@ -46,7 +46,7 @@ def download_datasheet(request, part_id):
     # generate http response
     with open(part.datasheet.path, 'rb') as f:
         response = HttpResponse(f, content_type=mime_type)
-        response['Content-Disposition'] = f"attachment; filename={fname}"
+        response['Content-Disposition'] = f"filename={fname}"
 
     return response
 
