@@ -29,14 +29,12 @@ class Part(models.Model):
 
     # user-friendly name of the part
     name = models.CharField(max_length=50)
-    # slug generated from the name, should be unique within the user's parts
-    slug = models.SlugField(blank=True)
 
     tags = models.ManyToManyField(Tag, blank=True)
 
     description = models.TextField(blank=True)
 
-    image = models.FileField(blank=True)
+    image = models.ImageField(blank=True)
     datasheet = models.FileField(blank=True)
     pinout = models.ImageField(blank=True)
 

@@ -1,6 +1,6 @@
 import re
 
-from django.forms import ModelForm
+from django.forms import ModelForm, CharField, TextInput
 from django.core.exceptions import ValidationError
 
 from .models import Container, Part
@@ -26,10 +26,13 @@ class ContainerForm(ModelForm):
         return ns
 
 class PartForm(ModelForm):
+    tags = CharField(required=False, widget=TextInput(attrs={
+        'placeholder':'Comma-separated tags'}))
+
     class Meta:
         model = Part
-        fields = ['name', 'image', 'description', 'datasheet', 'pinout', 'quantity',
-                  'price', 'container', 'location']
+        fields = ['name', 'image', 'description', 'datasheet', 'pinout',
+                  'quantity', 'price', 'container', 'location', 'tags']
 
     def clean_container(self):
         container = self.cleaned_data['container']
@@ -44,7 +47,7 @@ class PartForm(ModelForm):
         container = self.cleaned_data['container']
 
         if not re.match(container.naming_scheme, location):
-            raise ValidationError("Location doesn't match container's"
+            raise ValidationError("Location doesn't match container's "
                                   "naming scheme: %(ns)s",
                                   params={'ns': container.naming_scheme})
 

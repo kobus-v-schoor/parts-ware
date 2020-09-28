@@ -10,8 +10,8 @@ from django.views.decorators.http import require_POST
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 
-from .models import Tag, Container, Part
-from .forms import ContainerForm, PartForm
+from parts.models import Tag, Container, Part
+from parts.forms import ContainerForm, PartForm
 
 @login_required
 def index(request):
@@ -55,28 +55,48 @@ def download_datasheet(request, part_id):
 def search(request):
     # retrieve query
     query = request.POST.get("search", None).strip()
-    if not query:
-        return redirect('parts:index')
 
-    # pre-process query to all-lowercase and remove special chars
-    query = query.lower()
-    query = re.sub("[^0-9a-zA-Z]+", " ", query)
+    # lowercase and split query into its separate words
+    query = query.lower().split()
 
-    # split query into its separate words
-    query = query.split()
+    tags = []
+    words = []
 
-    def construct_query(word):
+    # separate query into tags and words
+    for word in query:
+        if word.startswith('tag:'):
+            word = word[4:]
+            if word:
+                tags.append(word)
+        else:
+            words.append(word)
+
+    # start with an empty query
+    q = Q()
+
+    # and all the tags
+    if tags:
+        for tag in tags:
+            try:
+                tag = Tag.objects.get(user=request.user, name=tag)
+                q &= Q(tags=tag)
+            except:
+                pass
+
+    # all the words are or'ed
+    def word_query(word):
         q = Q(name__icontains=word)
         q |= Q(description__icontains=word)
 
         return q
 
-    # build query from words
-    q = reduce(lambda x, y: x | y, [construct_query(word) for word in query])
+    # final query looks like (tag & tag & (word | word | word))
+    if words:
+        q &= reduce(lambda x, y: x | y, [word_query(word) for word in words])
 
-    # filter parts
-    parts = Part.objects.filter(user=request.user)
-    parts = parts.filter(q)
+    # filter the parts
+    q = Q(user=request.user) & q
+    parts = Part.objects.filter(q)
 
     # return results
     context = {
@@ -115,8 +135,23 @@ def add_part(request):
         form = PartForm(request.POST)
         form.user = request.user
         if form.is_valid():
+            # create part
             part = form.save(commit=False)
             part.user = request.user
+
+            # parse tags field
+            tags = [s.strip() for s in form.cleaned_data['tags'].split(',')]
+
+            if tags:
+                # save part so we can add the tags
+                part.save()
+
+                # get/create tags and add them to the part
+                for tag in tags:
+                    tag, created = Tag.objects.get_or_create(user=request.user,
+                                                             name=tag)
+                    part.tags.add(tag)
+
             part.save()
             successfully_added = True
     else:
@@ -133,3 +168,7 @@ def add_part(request):
     }
 
     return render(request, 'parts/part.html', context=context)
+
+@login_required
+def edit_part(request):
+    pass
