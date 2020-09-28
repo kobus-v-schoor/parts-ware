@@ -15,7 +15,7 @@ class Container(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # user-friendly name for the container
     name = models.CharField(max_length=128)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     # regex describing a valid naming scheme for locations in this container
     naming_scheme = models.CharField(max_length=128)
 
