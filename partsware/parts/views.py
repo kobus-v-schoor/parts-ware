@@ -151,6 +151,19 @@ def add_container(request):
     return render(request, 'parts/container.html', context=context)
 
 @login_required
+def view_part(request, part_id):
+    part = get_object_or_404(Part, pk=part_id)
+
+    if part.user != request.user:
+        raise PermissionDenied()
+
+    context = {
+        'part': part,
+    }
+
+    return render(request, 'parts/view_part.html', context=context)
+
+@login_required
 def add_part(request):
     success = False
 

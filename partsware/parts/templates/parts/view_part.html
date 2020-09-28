@@ -1,0 +1,56 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}{{ part.name }}{% endblock %}
+
+{% block parts_content %}
+<div class="row m-4">
+    <div class="col">
+        <h3>Part: {{ part.name }}</h3>
+    </div>
+    <div class="col">
+        <div class="float-right">
+            {% if part.datasheet %}
+            <a class="btn btn-primary" href="{% url 'parts:download_datasheet' part.pk %}">
+                Datasheet
+            </a>
+            {% endif %}
+
+            <a class="btn btn-primary" href="{% url 'parts:edit_part' part.pk %}"
+                title="Edit">
+                <i class="fa fa-edit"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row m-4">
+    <div class="col-md-6">
+        <p style="white-space: pre-wrap">{{ part.description }}</p>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">Details</div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item">Container: <div class="float-right">{{ part.container }}</div></li>
+                    <li class="list-group-item">Location: <div class="float-right">{{ part.location }}</div></li>
+                    <li class="list-group-item">Quantity: <div class="float-right">{{ part.quantity }}</div></li>
+                    {% if part.price %}
+                    <li class="list-group-item">Price: <div class="float-right">{{ part.price }}</div></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        {% if part.pinout %}
+        <div class="card">
+            <img class="card-img-top" src="{% url 'parts:pinout' part.pk %}" />
+            <div class="card-body">
+                <p class="card-text">Pinout</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
