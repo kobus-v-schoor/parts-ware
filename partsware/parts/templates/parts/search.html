@@ -16,6 +16,7 @@ No parts found
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Datasheet</th>
+            <th scope="col">Pinout</th>
             <th scope="col">Quantity</th>
             <th scope="col">Container</th>
             <th scope="col">Location</th>
@@ -28,15 +29,25 @@ No parts found
         <tr>
             <td>{{ part.name }}</td>
             <td>{{ part.description | truncatechars:150 }}</td>
+
             {% if part.datasheet %}
             <td>
                 <a href="{% url 'parts:download_datasheet' part.pk %}">
-                    {{ part.datasheet }}
+                    Download
                 </a>
             </td>
             {% else %}
             <td>N/A</td>
             {% endif %}
+
+            {% if part.pinout %}
+            <td>
+                <a href="{% url 'parts:pinout' part.pk %}">Show</a>
+            </td>
+            {% else %}
+            <td>N/A</td>
+            {% endif %}
+
             <td>{{ part.quantity }}</td>
             <td>{{ part.container }}</td>
             <td>{{ part.location }}</td>

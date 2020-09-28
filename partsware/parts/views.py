@@ -51,6 +51,29 @@ def download_datasheet(request, part_id):
     return response
 
 @login_required
+def pinout(request, part_id):
+    part = get_object_or_404(Part, pk=part_id)
+
+    # check if user owns the part
+    if part.user != request.user:
+        raise PermissionDenied()
+
+    # check if the part has a pinout
+    if not part.pinout:
+        raise PermissionDenied()
+
+    # try and guess file type
+    mime_type, _ = mimetypes.guess_type(part.pinout.path)
+    fname = part.pinout.name
+
+    # generate http response
+    with open(part.pinout.path, 'rb') as f:
+        response = HttpResponse(f, content_type=mime_type)
+        response['Content-Disposition'] = f"filename={fname}"
+
+    return response
+
+@login_required
 @require_POST
 def search(request):
     # retrieve query
