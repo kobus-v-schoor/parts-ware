@@ -19,6 +19,7 @@ No parts found
             <th scope="col">Quantity</th>
             <th scope="col">Container</th>
             <th scope="col">Location</th>
+            <th scope="col"></th>
         </tr>
     </thead>
 
@@ -39,6 +40,9 @@ No parts found
             <td>{{ part.quantity }}</td>
             <td>{{ part.container }}</td>
             <td>{{ part.location }}</td>
+            <td>
+                <a href="{% url 'parts:edit_part' part.id %}">Edit</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

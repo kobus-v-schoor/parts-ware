@@ -4,7 +4,7 @@ import mimetypes
 from functools import reduce
 
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.db.models import Q
@@ -129,10 +129,10 @@ def add_container(request):
 
 @login_required
 def add_part(request):
-    successfully_added = False
+    success = False
 
     if request.method == 'POST':
-        form = PartForm(request.POST)
+        form = PartForm(request.POST, request.FILES)
         form.user = request.user
         if form.is_valid():
             # create part
@@ -153,7 +153,8 @@ def add_part(request):
                     part.tags.add(tag)
 
             part.save()
-            successfully_added = True
+            success = True
+            form = PartForm()
     else:
         form = PartForm()
 
@@ -163,12 +164,57 @@ def add_part(request):
 
     context = {
         'new_part': True,
-        'successfully_added': successfully_added,
+        'success': success,
         'form': form,
+        'post_url': reverse('parts:add_part'),
     }
 
     return render(request, 'parts/part.html', context=context)
 
 @login_required
-def edit_part(request):
-    pass
+def edit_part(request, part_id):
+    part = get_object_or_404(Part, pk=part_id)
+
+    if part.user != request.user:
+        raise PermissionDenied()
+
+    success = False
+
+    if request.method == 'POST':
+        form = PartForm(request.POST, request.FILES, instance=part)
+        form.user = request.user
+
+        if form.is_valid():
+            part = form.save(commit=False)
+
+            # parse tags field
+            tags = [s.strip() for s in form.cleaned_data['tags'].split(',')]
+
+            part.tags.clear()
+            if tags:
+                # get/create tags and add them to the part
+                for tag in tags:
+                    tag, created = Tag.objects.get_or_create(user=request.user,
+                                                             name=tag)
+                    part.tags.add(tag)
+
+            # update part
+            part.save()
+            success = True
+
+            # repopulate form so that newly-upload files are also shown
+            form = PartForm(instance=part,
+                            initial={'tags': form.cleaned_data['tags']})
+
+    else:
+        tag_str = ','.join(str(t) for t in part.tags.all())
+        form = PartForm(instance=part, initial={'tags': tag_str})
+
+    context = {
+        'new_part': False,
+        'form': form,
+        'success': success,
+        'post_url': reverse('parts:edit_part', kwargs={'part_id': part_id}),
+    }
+
+    return render(request, 'parts/part.html', context=context)

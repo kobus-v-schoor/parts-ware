@@ -11,4 +11,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('add_container/', views.add_container, name='add_container'),
     path('add_part/', views.add_part, name='add_part'),
+    path('edit_part/<int:part_id>/', views.edit_part, name='edit_part'),
 ]

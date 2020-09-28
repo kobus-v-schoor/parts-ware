@@ -32,7 +32,7 @@ class PartForm(ModelForm):
     class Meta:
         model = Part
         fields = ['name', 'image', 'description', 'datasheet', 'pinout',
-                  'quantity', 'price', 'container', 'location', 'tags']
+                  'quantity', 'price', 'container', 'location',]
 
     def clean_container(self):
         container = self.cleaned_data['container']

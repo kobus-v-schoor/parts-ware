@@ -11,7 +11,7 @@ Edit part
 
 {% block parts_content %}
 
-<div class="container">
+<div class="container p-3">
     <div class="row p-3">
         {% if new_part %}
         <h3>Add new part</h3>
@@ -20,13 +20,17 @@ Edit part
         {% endif %}
     </div>
 
-    {% if successfully_added %}
+    {% if success %}
     <div class="alert alert-success">
+        {% if new_part %}
         New part successfully added
+        {% else %}
+        Part successfully updated
+        {% endif %}
     </div>
     {% endif %}
 
-    <form method="post" action="{% url 'parts:add_part' %}">
+    <form method="post" action="{{ post_url }}" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="form-row">
@@ -66,7 +70,11 @@ Edit part
         <div class="form-row">
             <div class="text-center">
                 <button class="btn btn-primary" type="submit">
+                    {% if new_part %}
                     Create new part
+                    {% else %}
+                    Update part
+                    {% endif %}
                 </button>
             </div>
         </div>
