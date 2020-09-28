@@ -9,4 +9,5 @@ urlpatterns = [
     path('download_datasheet/<int:part_id>/', views.download_datasheet,
          name='download_datasheet'),
     path('search/', views.search, name='search'),
+    path('add_container/', views.add_container, name='add_container'),
 ]

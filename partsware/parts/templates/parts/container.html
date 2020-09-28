@@ -1,0 +1,51 @@
+{% extends 'parts/base.html' %}
+{% load parts_extras %}
+
+{% block title %}
+{% if new_container %}
+Add new container
+{% else %}
+Edit container
+{% endif %}
+{% endblock %}
+
+{% block parts_content %}
+
+<div class="container">
+    <div class="row p-3">
+        {% if new_container %}
+        <h3>Add new container</h3>
+        {% else %}
+        <h3>Edit container</h3>
+        {% endif %}
+    </div>
+
+    {% if successfully_added %}
+    <div class="alert alert-success">
+        New container successfully added
+    </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'parts:add_container' %}">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="col">
+                {% form_input form.name %}
+                {% form_input form.naming_scheme %}
+
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">
+                        Create new container
+                    </button>
+                </div>
+            </div>
+
+            <div class="col">
+                {% form_input form.description %}
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

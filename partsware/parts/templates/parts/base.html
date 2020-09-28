@@ -17,13 +17,14 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <a class="navbar-brand">PartsWare</a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'parts:index' %}">Index</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="{% url 'parts:add_container' %}">Add container</a>
             </li>
         </ul>
+
         <form class="form-inline my-2 my-lg-0" method="post" action="{% url 'parts:search' %}">
             {% csrf_token %}
             <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

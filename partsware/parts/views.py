@@ -11,6 +11,7 @@ from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 
 from .models import Tag, Container, Part
+from .forms import ContainerForm
 
 @login_required
 def index(request):
@@ -83,3 +84,25 @@ def search(request):
     }
 
     return render(request, 'parts/search.html', context=context)
+
+@login_required
+def add_container(request):
+    successfully_added = False
+
+    if request.method == 'POST':
+        form = ContainerForm(request.POST)
+        if form.is_valid():
+            container = form.save(commit=False)
+            container.user = request.user
+            container.save()
+            successfully_added = True
+    else:
+        form = ContainerForm()
+
+    context = {
+        'new_container': True,
+        'successfully_added': successfully_added,
+        'form': form,
+    }
+
+    return render(request, 'parts/container.html', context=context)
