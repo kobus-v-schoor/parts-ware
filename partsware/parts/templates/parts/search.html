@@ -15,7 +15,14 @@ No parts found
 
     <div class="col-sm-3">
         <div class="card mb-4">
-            <div class="card-header">{{ part.name }}</div>
+            <div class="card-header">
+                <strong>{{ part.name }}</strong>
+                <div class="float-right">
+                    <a href="{% url 'parts:edit_part' part.pk %}" title="Edit">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </div>
+            </div>
 
             <div class="card-body">
                 <h6 class="card-subtitle text-muted mb-2">
