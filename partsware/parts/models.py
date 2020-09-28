@@ -22,6 +22,15 @@ class Container(models.Model):
     def __str__(self):
         return self.name
 
+def datasheet_upload_to(instance, filename):
+    return f'{instance.user.id}/datasheets/{filename}'
+
+def pinout_upload_to(instance, filename):
+    return f'{instance.user.id}/pinouts/{filename}'
+
+def image_upload_to(instance, filename):
+    return f'{instance.user.id}/images/{filename}'
+
 # represents a physical part
 class Part(models.Model):
     # user with which the part is associated
@@ -34,9 +43,9 @@ class Part(models.Model):
 
     description = models.TextField(blank=True)
 
-    image = models.ImageField(blank=True)
-    datasheet = models.FileField(blank=True)
-    pinout = models.ImageField(blank=True)
+    image = models.ImageField(blank=True, upload_to=image_upload_to)
+    datasheet = models.FileField(blank=True, upload_to=datasheet_upload_to)
+    pinout = models.ImageField(blank=True, upload_to=pinout_upload_to)
 
     quantity = models.PositiveSmallIntegerField(default=0)
     price = models.DecimalField(blank=True, null=True,
