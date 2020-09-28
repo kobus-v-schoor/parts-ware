@@ -28,7 +28,7 @@ class ContainerForm(ModelForm):
 class PartForm(ModelForm):
     class Meta:
         model = Part
-        fields = ['name', 'description', 'datasheet', 'pinout', 'quantity',
+        fields = ['name', 'image', 'description', 'datasheet', 'pinout', 'quantity',
                   'price', 'container', 'location']
 
     def clean_container(self):
