@@ -35,6 +35,8 @@ class Part(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
 
     description = models.TextField(blank=True)
+
+    image = models.FileField(blank=True)
     datasheet = models.FileField(blank=True)
     pinout = models.ImageField(blank=True)
 
