@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 
 from .models import Tag, Container, Part
-from .forms import ContainerForm
+from .forms import ContainerForm, PartForm
 
 @login_required
 def index(request):
@@ -106,3 +106,30 @@ def add_container(request):
     }
 
     return render(request, 'parts/container.html', context=context)
+
+@login_required
+def add_part(request):
+    successfully_added = False
+
+    if request.method == 'POST':
+        form = PartForm(request.POST)
+        form.user = request.user
+        if form.is_valid():
+            part = form.save(commit=False)
+            part.user = request.user
+            part.save()
+            successfully_added = True
+    else:
+        form = PartForm()
+
+    # filter out the containers to only contain this user's containers
+    containers = Container.objects.filter(user=request.user)
+    form.fields["container"].queryset = containers
+
+    context = {
+        'new_part': True,
+        'successfully_added': successfully_added,
+        'form': form,
+    }
+
+    return render(request, 'parts/part.html', context=context)

@@ -1,0 +1,75 @@
+{% extends 'parts/base.html' %}
+{% load parts_extras %}
+
+{% block title %}
+{% if new_part %}
+Add new part
+{% else %}
+Edit part
+{% endif %}
+{% endblock %}
+
+{% block parts_content %}
+
+<div class="container">
+    <div class="row p-3">
+        {% if new_part %}
+        <h3>Add new part</h3>
+        {% else %}
+        <h3>Edit part</h3>
+        {% endif %}
+    </div>
+
+    {% if successfully_added %}
+    <div class="alert alert-success">
+        New part successfully added
+    </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'parts:add_part' %}">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="col">
+                {% form_input form.name %}
+                {% form_input form.datasheet %}
+                {% form_input form.pinout %}
+            </div>
+
+            <div class="col">
+                {% form_input form.description %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col">
+                {% form_input form.quantity %}
+            </div>
+
+            <div class="col">
+                {% form_input form.price %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col">
+                {% form_input form.container %}
+            </div>
+
+            <div class="col">
+                {% form_input form.location %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">
+                    Create new part
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

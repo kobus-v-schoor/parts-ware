@@ -39,7 +39,8 @@ class Part(models.Model):
     pinout = models.ImageField(blank=True)
 
     quantity = models.PositiveSmallIntegerField(default=0)
-    price = models.DecimalField(blank=True, max_digits=10, decimal_places=2)
+    price = models.DecimalField(blank=True, null=True,
+                                max_digits=10, decimal_places=2)
 
     container = models.ForeignKey(Container, on_delete=models.PROTECT)
     # this location should be verified against the relevant container's naming
