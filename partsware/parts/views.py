@@ -213,8 +213,20 @@ def edit_part(request, part_id):
     context = {
         'new_part': False,
         'form': form,
+        'part': part,
         'success': success,
         'post_url': reverse('parts:edit_part', kwargs={'part_id': part_id}),
     }
 
     return render(request, 'parts/part.html', context=context)
+
+@login_required
+def delete_part(request, part_id):
+    part = get_object_or_404(Part, pk=part_id)
+
+    if part.user != request.user:
+        raise PermissionDenied()
+
+    part.delete()
+
+    return redirect('parts:index')

@@ -13,10 +13,22 @@ Edit part
 
 <div class="container p-3">
     <div class="row p-3">
-        {% if new_part %}
-        <h3>Add new part</h3>
-        {% else %}
-        <h3>Edit part</h3>
+        <div class="col">
+            {% if new_part %}
+            <h3>Add new part</h3>
+            {% else %}
+            <h3>Edit part</h3>
+            {% endif %}
+        </div>
+
+        {% if not new_part %}
+        <div class="col">
+            <div class="text-right">
+                <a href="{% url 'parts:delete_part' part.pk %}" class="btn btn-danger">
+                    Delete
+                </a>
+            </div>
+        </div>
         {% endif %}
     </div>
 
