@@ -10,7 +10,7 @@
     <div class="col">
         <div class="float-right">
             {% if part.datasheet %}
-            <a class="btn btn-primary" href="{% url 'parts:download_datasheet' part.pk %}">
+            <a class="btn btn-primary" href="{% url 'parts:media' 'datasheet' part.pk %}">
                 Datasheet
             </a>
             {% endif %}
@@ -45,7 +45,7 @@
 
         {% if part.pinout %}
         <div class="card">
-            <img class="card-img-top" src="{% url 'parts:pinout' part.pk %}" />
+            <img class="card-img-top" src="{% url 'parts:media' 'pinout' part.pk %}" />
             <div class="card-body">
                 <p class="card-text">Pinout</p>
             </div>
