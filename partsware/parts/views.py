@@ -70,7 +70,7 @@ def media(request, media_type, part_id):
 @require_POST
 def search(request):
     # retrieve query
-    query = request.POST.get("search", None).strip()
+    query = request.POST.get("search", "").strip()
 
     # lowercase and split query into its separate words
     query = query.lower().split()
@@ -114,9 +114,15 @@ def search(request):
     q = Q(user=request.user) & q
     parts = Part.objects.filter(q)
 
+    # sort results
+    sort_by = request.POST.get('sort-by', 'name')
+    if sort_by in ['container']:
+        parts = parts.order_by(sort_by)
+
     # return results
     context = {
-        'parts': parts
+        'parts': parts,
+        'query': request.POST.get("search", ""),
     }
 
     return render(request, 'parts/search.html', context=context)
