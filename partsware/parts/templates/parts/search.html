@@ -61,12 +61,14 @@ No parts found
                     {{ part.container }}: {{ part.location }}
                 </h6>
 
+                {% if part.quantity %}
                 <h6 class="card-subtitle text-muted mb-2">
                     Quantity: {{ part.quantity }}
                     {% if part.price %}
                     @ {{ part.price }}
                     {% endif %}
                 </h6>
+                {% endif %}
 
                 <p class="card-text">
                 {{ part.description | truncatechars:150 }}

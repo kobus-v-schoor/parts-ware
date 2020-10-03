@@ -1,0 +1,44 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}Containers{% endblock%}
+
+{% block parts_content %}
+
+<div class="row m-3">
+    <h3>Your containers</h3>
+</div>
+
+{% if not containers %}
+<div class="alert alert-warning">No containers found</div>
+{% else %}
+<div class="row">
+    {% for container in containers %}
+    <div class="col-sm-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ container.name }}
+
+                    <div class="float-right">
+                        <a href="{% url 'parts:edit_container' container.pk %}" title="Edit">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    Total parts: {{ container.part_set.count }}
+                </h6>
+
+                {% if container.description %}
+                <p class="card-text">
+                {{ container.description }}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

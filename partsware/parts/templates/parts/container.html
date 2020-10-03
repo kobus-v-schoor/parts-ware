@@ -13,20 +13,42 @@ Edit container
 
 <div class="container p-3">
     <div class="row p-3">
-        {% if new_container %}
-        <h3>Add new container</h3>
-        {% else %}
-        <h3>Edit container</h3>
+        <div class="col-md-8">
+            {% if new_container %}
+            <h3>Add new container</h3>
+            {% else %}
+            <h3>Edit container</h3>
+            {% endif %}
+        </div>
+
+        {% if not new_container %}
+        <div class="col-md-4">
+            <div class="text-right">
+                {% if has_parts %}
+                <div class="alert alert-secondary">
+                    Cannot delete while container has parts
+                </div>
+                {% else %}
+                <a href="{% url 'parts:delete_container' container_id %}" class="btn btn-danger">
+                    <i class="fa fa-trash"></i> Delete
+                </a>
+                {% endif %}
+            </div>
+        </div>
         {% endif %}
     </div>
 
-    {% if successfully_added %}
+    {% if success %}
     <div class="alert alert-success">
+        {% if new_container %}
         New container successfully added
+        {% else %}
+        Container successfully updated
+        {% endif %}
     </div>
     {% endif %}
 
-    <form method="post" action="{% url 'parts:add_container' %}">
+    <form method="post" action="{{ post_url }}">
         {% csrf_token %}
 
         <div class="form-row">
@@ -36,7 +58,11 @@ Edit container
 
                 <div class="text-center">
                     <button class="btn btn-primary" type="submit">
+                        {% if new_container %}
                         Create new container
+                        {% else %}
+                        Update container
+                        {% endif %}
                     </button>
                 </div>
             </div>

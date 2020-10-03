@@ -140,8 +140,18 @@ def all_parts(request):
     return render(request, 'parts/search.html', context=context)
 
 @login_required
+def list_containers(request):
+    containers = Container.objects.filter(user=request.user).order_by('name')
+
+    context = {
+        'containers': containers,
+    }
+
+    return render(request, 'parts/list_containers.html', context=context)
+
+@login_required
 def add_container(request):
-    successfully_added = False
+    success = False
 
     if request.method == 'POST':
         form = ContainerForm(request.POST)
@@ -149,17 +159,60 @@ def add_container(request):
             container = form.save(commit=False)
             container.user = request.user
             container.save()
-            successfully_added = True
+            success = True
     else:
         form = ContainerForm()
 
     context = {
         'new_container': True,
-        'successfully_added': successfully_added,
+        'success': success,
+        'post_url': reverse('parts:add_container'),
         'form': form,
     }
 
     return render(request, 'parts/container.html', context=context)
+
+@login_required
+def edit_container(request, container_id):
+    container = get_object_or_404(Container, pk=container_id)
+
+    # check if user owns container
+    if container.user != request.user:
+        raise PermissionDenied()
+
+    success = False
+
+    if request.method == 'POST':
+        form = ContainerForm(request.POST, instance=container)
+        if form.is_valid():
+            form.save()
+            success = True
+    else:
+        form = ContainerForm(instance=container)
+
+    context = {
+        'new_container': False,
+        'has_parts': container.part_set.exists(),
+        'success': success,
+        'post_url': reverse('parts:edit_container',
+                            kwargs={'container_id': container_id}),
+        'form': form,
+        'container_id': container.pk,
+    }
+
+    return render(request, 'parts/container.html', context=context)
+
+@login_required
+def delete_container(request, container_id):
+    container = get_object_or_404(Container, pk=container_id)
+
+    # check if user owns container
+    if container.user != request.user:
+        raise PermissionDenied()
+
+    container.delete()
+
+    return redirect('parts:list_containers')
 
 @login_required
 def view_part(request, part_id):
