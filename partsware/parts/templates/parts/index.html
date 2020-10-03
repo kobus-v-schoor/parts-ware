@@ -1,6 +1,24 @@
 {% extends 'parts/base.html' %}
 
+{% block title %}Index{% endblock %}
+
 {% block parts_content %}
+
+<div class="p-5 row">
+    <form action="{% url 'parts:search' %}" method="post" class="form-inline w-100">
+        {% csrf_token %}
+
+        <div class="input-group input-group-lg w-100">
+            <input type="search" class="form-control" placeholder="Search for parts" name="search" autofocus />
+
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-info">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
 
 <div class="pt-5 row">
     <div class="col-md-4">
@@ -27,28 +45,5 @@
         </div>
     </div>
 </div>
-<div class="p-3 row">
-    <div class="search-container form-inline" style="width: 100%;">
-        <form action="{% url 'parts:search' %}" method="post" class="form-inline  my-2 my-lg-0" style="width: 85%;">
-            <div class="form-group" style="width: 83%;">
-                {% csrf_token %}
-                <input type="search" class="form-control mr-sm-2" placeholder="Search.." name="search" style="width: 98%; height: 60px;">
-            </div>
-            <div class="form-group" style="width: 15%;">
-                <button type="submit" class="btn btn-info" style="width: 100%; height: 60px; font-size: x-large;">
-                    <div style="-webkit-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg);">⚲</div>
-                </button>
-            </div>
-        </form>
-        <form action="{% url 'parts:search' %}" method="post" class="form-inline  my-2 my-lg-0" style="width: 15%;">
-            <div class="form-group" style="width: 0px;">
-                {% csrf_token %}
-                <input type="search" class="form-control" name="search" value="" style="visibility: hidden;">
-            </div>
-            <div class="form-group" style="width: 100%;">
-                <button type="submit" class="btn btn-info" style="width: 100%; height: 60px; font-size: x-large;">All</button>
-            </div>
-        </form>
-    </div>
-</div>
+
 {% endblock %}

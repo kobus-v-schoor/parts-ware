@@ -28,13 +28,21 @@
             </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0" method="post" action="{% url 'parts:search' %}">
+        {% if not no_nav_search %}
+        <form class="form-inline" method="post" action="{% url 'parts:search' %}">
             {% csrf_token %}
-            <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
-                <i class="fa fa-search"></i>
-            </button>
+
+            <div class="input-group">
+                <input name="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+
+                <div class="input-group-append">
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
         </form>
+        {% endif %}
     </div>
 </nav>
 
