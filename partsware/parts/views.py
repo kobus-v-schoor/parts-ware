@@ -130,6 +130,14 @@ def search(request):
     return render(request, 'parts/search.html', context=context)
 
 @login_required
+def all_parts(request):
+    context = {
+        'parts': Part.objects.filter(user=request.user),
+    }
+
+    return render(request, 'parts/search.html', context=context)
+
+@login_required
 def add_container(request):
     successfully_added = False
 
