@@ -20,6 +20,7 @@ def index(request):
     parts = Part.objects.filter(user=request.user)
 
     context = {
+        'no_nav_search': True,
         'tags': tags,
         'containers': containers,
         'parts': parts,
