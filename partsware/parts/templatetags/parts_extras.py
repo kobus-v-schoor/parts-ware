@@ -9,7 +9,14 @@ def add_class(value, arg):
 
 @register.inclusion_tag('parts/bs_form_input.html')
 def form_input(field):
+    context = {'field': field}
+
     if type(field.field.widget) == ClearableFileInput:
-        return {'field': field, 'bs_class': 'form-control-file'}
+        context['bs_class'] = 'form-control-file'
     else:
-        return {'field': field, 'bs_class': 'form-control'}
+        context['bs_class'] = 'form-control'
+
+    if field.errors:
+        context['bs_class'] += ' is-invalid'
+
+    return context

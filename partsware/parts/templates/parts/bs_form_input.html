@@ -5,6 +5,6 @@
     {{ field|add_class:bs_class }}
 
     {% for error in field.errors %}
-    <div class="alert alert-danger">{{ error }}</div>
+    <div class="invalid-feedback">{{ error }}</div>
     {% endfor %}
 </div>
