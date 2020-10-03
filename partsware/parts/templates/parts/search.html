@@ -26,6 +26,10 @@ No parts found
                 </div>
             </div>
 
+            {% if part.image %}
+            <img src="{% url 'parts:media' 'image' part.pk %}" class="card-img-top" />
+            {% endif %}
+
             <div class="card-body">
                 <h6 class="card-subtitle text-muted mb-2">
                     {{ part.container }}: {{ part.location }}
@@ -36,11 +40,11 @@ No parts found
                 </p>
 
                 {% if part.datasheet %}
-                <a class="btn btn-primary" href="{% url 'parts:download_datasheet' part.pk %}">Datasheet</a>
+                <a class="btn btn-primary" href="{% url 'parts:media' 'datasheet' part.pk %}">Datasheet</a>
                 {% endif %}
 
                 {% if part.pinout %}
-                <a class="btn btn-primary" href="{% url 'parts:pinout' part.pk %}">Pinout</a>
+                <a class="btn btn-primary" href="{% url 'parts:media' 'pinout' part.pk %}">Pinout</a>
                 {% endif %}
             </div>
         </div>

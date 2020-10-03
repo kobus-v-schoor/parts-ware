@@ -28,46 +28,38 @@ def index(request):
     return render(request, 'parts/index.html', context=context)
 
 @login_required
-def download_datasheet(request, part_id):
+def media(request, media_type, part_id):
+    # check if the media type is allowed
+    if media_type not in ['datasheet', 'pinout', 'image']:
+        raise PermissionDenied()
+
+    # retrieve the part object
     part = get_object_or_404(Part, pk=part_id)
 
-    # check if user owns the part
+    # check if the user owns the part
     if part.user != request.user:
         raise PermissionDenied()
 
-    # check if the part has a datasheet
-    if not part.datasheet:
+    # get the file field
+    if media_type == 'datasheet':
+        file_field = part.datasheet
+    elif media_type == 'pinout':
+        file_field = part.pinout
+    else:
+        file_field = part.image
+
+    # check if the file exists
+    if not file_field:
         raise PermissionDenied()
 
     # try and guess file type
-    mime_type, _ = mimetypes.guess_type(part.datasheet.path)
-    fname = part.datasheet.name
+    mime_type, _ = mimetypes.guess_type(file_field.path)
+
+    # get the file name for download
+    fname = file_field.name
 
     # generate http response
-    with open(part.datasheet.path, 'rb') as f:
-        response = HttpResponse(f, content_type=mime_type)
-        response['Content-Disposition'] = f"filename={fname}"
-
-    return response
-
-@login_required
-def pinout(request, part_id):
-    part = get_object_or_404(Part, pk=part_id)
-
-    # check if user owns the part
-    if part.user != request.user:
-        raise PermissionDenied()
-
-    # check if the part has a pinout
-    if not part.pinout:
-        raise PermissionDenied()
-
-    # try and guess file type
-    mime_type, _ = mimetypes.guess_type(part.pinout.path)
-    fname = part.pinout.name
-
-    # generate http response
-    with open(part.pinout.path, 'rb') as f:
+    with open(file_field.path, 'rb') as f:
         response = HttpResponse(f, content_type=mime_type)
         response['Content-Disposition'] = f"filename={fname}"
 
