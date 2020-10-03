@@ -116,8 +116,12 @@ def search(request):
 
     # sort results
     sort_by = request.POST.get('sort-by', 'name')
-    if sort_by in ['container']:
-        parts = parts.order_by(sort_by)
+    if sort_by == 'container':
+        parts = parts.order_by('container', 'location')
+    elif sort_by == 'quantity':
+        parts = parts.order_by('quantity')
+    elif sort_by == 'price':
+        parts = parts.order_by('price')
 
     # return results
     context = {
