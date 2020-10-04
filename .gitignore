@@ -4,3 +4,4 @@ __pycache__
 *.swp
 partsware/media
 partsware/partsware/local_settings.py
+static_root

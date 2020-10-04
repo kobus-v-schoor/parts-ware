@@ -30,5 +30,5 @@ TIME_ZONE = 'UTC'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_DIRS = ["static"]
+STATIC_ROOT = BASE_DIR / 'static_root'
 MEDIA_ROOT = BASE_DIR / 'media'
