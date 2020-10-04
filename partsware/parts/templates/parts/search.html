@@ -76,17 +76,23 @@ No parts found
                     </small>
                 </h6>
 
-                {% if part.datasheet %}
-                <a class="btn btn-primary btn-block btn-sm" href="{% url 'parts:media' 'datasheet' part.pk %}">
-                    <i class="fa fa-file-text-o"></i> Datasheet
-                </a>
-                {% endif %}
+                <div class="row">
+                    {% if part.datasheet %}
+                    <div class="col-xl p-1">
+                        <a class="btn btn-primary btn-sm btn-block" href="{% url 'parts:media' 'datasheet' part.pk %}">
+                            <i class="fa fa-file-text-o"></i> Datasheet
+                        </a>
+                    </div>
+                    {% endif %}
 
-                {% if part.pinout %}
-                <a class="btn btn-primary btn-block btn-sm" href="{% url 'parts:media' 'pinout' part.pk %}">
-                    <i class="fa fa-plug"></i> Pinout
-                </a>
-                {% endif %}
+                    {% if part.pinout %}
+                    <div class="col-xl p-1">
+                        <a class="btn btn-primary btn-sm btn-block" href="{% url 'parts:media' 'pinout' part.pk %}">
+                            <i class="fa fa-plug"></i> Pinout
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
 
                 <p class="card-text">
                 {{ part.description | truncatechars:50 }}
