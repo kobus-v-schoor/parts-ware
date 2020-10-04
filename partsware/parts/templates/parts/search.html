@@ -1,5 +1,7 @@
 {% extends 'parts/base.html' %}
 
+{% block title %}Search results{% endblock %}
+
 {% block parts_content %}
 
 <div class="row p-3">
@@ -16,7 +18,10 @@
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                        <i class="fa fa-sort-amount-desc"></i> Order by
+                        <span class="mr-2">
+                            <i class="fa fa-sort-amount-desc"></i>
+                        </span>
+                        Order by
                     </div>
                 </div>
 
