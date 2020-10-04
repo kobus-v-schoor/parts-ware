@@ -16,7 +16,7 @@
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                        Order by
+                        <i class="fa fa-sort-amount-desc"></i> Order by
                     </div>
                 </div>
 
@@ -39,7 +39,7 @@ No parts found
 <div class="row">
     {% for part in parts %}
 
-    <div class="col-6 col-md-3 col-lg-2 mb-3">
+    <div class="col-6 col-md-4 col-lg-3 mb-3">
         <div class="card">
             <div class="card-header">
                 <a href="{% url 'parts:view_part' part.pk %}" class="text-body">
@@ -57,30 +57,35 @@ No parts found
             {% endif %}
 
             <div class="card-body">
-                <h6 class="card-subtitle text-muted mb-2">
-                    {{ part.container }}: {{ part.location }}
-                </h6>
+                <h6 class="clearfix card-subtitle text-muted text-sm mb-2">
+                    <small>
+                        <div class="float-left text-left">
+                            {{ part.container }}: {{ part.location }}
+                        </div>
 
-                {% if part.quantity %}
-                <h6 class="card-subtitle text-muted mb-2">
-                    Quantity: {{ part.quantity }}
-                    {% if part.price %}
-                    @ {{ part.price }}
-                    {% endif %}
+                        {% if part.quantity %}
+                        <div class="float-right text-right">
+                            <i class="fa fa-inbox"></i> {{ part.quantity }}
+                        </div>
+                        {% endif %}
+                    </small>
                 </h6>
-                {% endif %}
-
-                <p class="card-text">
-                {{ part.description | truncatechars:150 }}
-                </p>
 
                 {% if part.datasheet %}
-                <a class="btn btn-primary" href="{% url 'parts:media' 'datasheet' part.pk %}">Datasheet</a>
+                <a class="btn btn-primary btn-block btn-sm" href="{% url 'parts:media' 'datasheet' part.pk %}">
+                    <i class="fa fa-file-text-o"></i> Datasheet
+                </a>
                 {% endif %}
 
                 {% if part.pinout %}
-                <a class="btn btn-primary" href="{% url 'parts:media' 'pinout' part.pk %}">Pinout</a>
+                <a class="btn btn-primary btn-block btn-sm" href="{% url 'parts:media' 'pinout' part.pk %}">
+                    <i class="fa fa-plug"></i> Pinout
+                </a>
                 {% endif %}
+
+                <p class="card-text">
+                {{ part.description | truncatechars:50 }}
+                </p>
             </div>
         </div>
     </div>
