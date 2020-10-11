@@ -46,7 +46,7 @@ class PartForm(ModelForm):
         location = self.cleaned_data['location']
         container = self.cleaned_data['container']
 
-        if not re.match(container.naming_scheme, location):
+        if not re.match(f'^{container.naming_scheme}$', location):
             raise ValidationError("Location doesn't match container's "
                                   "naming scheme: %(ns)s",
                                   params={'ns': container.naming_scheme})
