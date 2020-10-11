@@ -94,9 +94,11 @@ No parts found
                     {% endif %}
                 </div>
 
+                {% if part.description %}
                 <p class="mt-2 card-text">
                 {{ part.description | truncatechars:50 }}
                 </p>
+                {% endif %}
             </div>
         </div>
     </div>
