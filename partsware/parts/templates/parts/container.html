@@ -52,23 +52,25 @@ Edit container
         {% csrf_token %}
 
         <div class="form-row">
-            <div class="col">
+            <div class="col-md">
                 {% form_input form.name %}
                 {% form_input form.naming_scheme %}
-
-                <div class="text-center">
-                    <button class="btn btn-primary" type="submit">
-                        {% if new_container %}
-                        Create new container
-                        {% else %}
-                        Update container
-                        {% endif %}
-                    </button>
-                </div>
             </div>
 
-            <div class="col">
+            <div class="col-md">
                 {% form_input form.description %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">
+                    {% if new_container %}
+                    Create new container
+                    {% else %}
+                    Update container
+                    {% endif %}
+                </button>
             </div>
         </div>
     </form>

@@ -46,35 +46,35 @@ Edit part
         {% csrf_token %}
 
         <div class="form-row">
-            <div class="col">
+            <div class="col-md">
                 {% form_input form.name %}
                 {% form_input form.image %}
                 {% form_input form.datasheet %}
                 {% form_input form.pinout %}
             </div>
 
-            <div class="col">
+            <div class="col-md">
                 {% form_input form.tags %}
                 {% form_input form.description %}
             </div>
         </div>
 
         <div class="form-row">
-            <div class="col">
+            <div class="col-md">
                 {% form_input form.quantity %}
             </div>
 
-            <div class="col">
+            <div class="col-md">
                 {% form_input form.price %}
             </div>
         </div>
 
         <div class="form-row">
-            <div class="col">
+            <div class="col-md">
                 {% form_input form.container %}
             </div>
 
-            <div class="col">
+            <div class="col-md">
                 {% form_input form.location %}
             </div>
         </div>
