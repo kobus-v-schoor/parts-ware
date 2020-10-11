@@ -1,40 +1,59 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'parts/css/base.css' %}">
+{% endblock %}
+
 {% block content %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-        data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01"
-        aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <a href="{% url 'parts:index' %}" class="navbar-brand">PartsWare</a>
+
+    <button class="navbar-toggler btn-primary" type="button" data-toggle="collapse"
+        data-target=".navbar-collapse">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand">PartsWare</a>
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'parts:index' %}">
-                    Index
-                </a>
-            </li>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'parts:all_parts' %}">
-                    All parts
+                    <i class="fa fa-cog"></i> Parts
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'parts:add_part' %}">
-                    Add part
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'parts:add_container' %}">
-                    Add container
-                </a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'parts:list_containers' %}">
-                    Containers
+                    <i class="fa fa-inbox"></i> Containers
                 </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-plus"></i> Add item
+                </a>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'parts:add_part' %}">
+                        <i class="fa fa-cog"></i> Part
+                    </a>
+
+                    <a class="dropdown-item" href="{% url 'parts:add_container' %}">
+                        <i class="fa fa-inbox"></i> Container
+                    </a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-user-circle-o"></i> Account
+                </a>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'logout' %}">
+                        <i class="fa fa-sign-out"></i> Logout
+                    </a>
+                </div>
             </li>
         </ul>
 
@@ -43,10 +62,10 @@
             {% csrf_token %}
 
             <div class="input-group">
-                <input name="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                <input name="search" class="form-control" type="search" placeholder="Search">
 
                 <div class="input-group-append">
-                    <button class="btn btn-outline-dark" type="submit">
+                    <button class="btn btn-secondary" type="submit">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
