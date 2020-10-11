@@ -4,10 +4,10 @@
 
 {% block parts_content %}
 <div class="row m-4">
-    <div class="col">
+    <div class="col-sm">
         <h3>Part: {{ part.name }}</h3>
     </div>
-    <div class="col">
+    <div class="col-sm">
         <div class="float-right">
             {% if part.datasheet %}
             <a class="btn btn-primary" href="{% url 'parts:media' 'datasheet' part.pk %}">
